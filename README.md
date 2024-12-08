@@ -11,18 +11,30 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    git clone https://github.com/github_username/repo_name.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
+   ```
+3. Build Frontend
+   ```sh
+   npm run build
    ```
 4. Install Composer packages
    ```sh
    composer install
    ```
 5. Create .env file if not exist
-6. Migrate database
+6. Generate key
+   ```sh
+   php artisan key:generate
+   ```
+7. Migrate database
    ```sh
    php artisan migrate
+   ```
+8. Seed database
+   ```sh
+   php artisan db:seed
    ```
 
 ### Built With
