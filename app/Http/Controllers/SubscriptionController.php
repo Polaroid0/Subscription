@@ -8,10 +8,12 @@ use App\Http\Resources\SubscriptionResource;
 use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\SubscriptionPlan;
+use App\Models\User;
 use App\Services\DummyPaymentService;
 use App\Services\ProcessPaymentAndSubscriptionService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -35,21 +37,26 @@ class SubscriptionController extends Controller
     /**
      * Return a status view with subscription and payments.
      *
+     * @param Request $request
+     *
      * @return Response
      */
-    public function status(): Response
+    public function status(Request $request): Response
     {
+        /** @var User $user */
+        $user = $request->user();
+
         $subscription = Subscription::query()
             ->with([
                 'subscriptionPlan',
             ])
-            ->where('user_id', auth()->id())
+            ->where('user_id', $user->id)
             ->where('end_date', '>', now())
             ->latest()
             ->first();
 
         $payments = Payment::query()
-            ->where('user_id', auth()->id())
+            ->where('user_id', $user->id)
             ->latest()
             ->get();
 
@@ -69,6 +76,9 @@ class SubscriptionController extends Controller
      */
     public function processPayment(SubscriptionPlan $subscriptionPlan, PaymentRequest $request): RedirectResponse
     {
+        /** @var User $user */
+        $user = $request->user();
+
         try {
             $paymentResult = (new DummyPaymentService())->processPayment();
 
@@ -76,7 +86,7 @@ class SubscriptionController extends Controller
                 (new ProcessPaymentAndSubscriptionService($subscriptionPlan, $request, $paymentResult))->processPayment();
 
                 Log::info('Payment processed successfully', [
-                    'user_id' => auth()->id(),
+                    'user_id' => $user->id,
                     'transaction_id' => $paymentResult['transaction_id'],
                 ]);
 
@@ -84,14 +94,14 @@ class SubscriptionController extends Controller
             }
 
             Log::warning('Payment failed', [
-                'user_id' => auth()->id(),
+                'user_id' => $user->id,
                 'error' => $paymentResult['message'],
             ]);
 
             return back()->with('error', $paymentResult['message']);
         } catch (Exception $e) {
             Log::error('Payment processing error', [
-                'user_id' => auth()->id(),
+                'user_id' => $user->id,
                 'error' => $e->getMessage(),
             ]);
 

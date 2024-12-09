@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class SubscriptionPlansSeeder extends Seeder
 {
@@ -18,7 +18,7 @@ class SubscriptionPlansSeeder extends Seeder
             ->insert([
                 'id' => 1,
                 'name' => 'Basic',
-                'price' => 19,
+                'price' => 19.99,
                 'features' => json_encode(['Custom Domain', 'Basic SEO', 'Limited Support']),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -28,7 +28,7 @@ class SubscriptionPlansSeeder extends Seeder
             ->insert([
                 'id' => 2,
                 'name' => 'Pro',
-                'price' => 49,
+                'price' => 49.99,
                 'features' => json_encode(['Custom Domain & Subdomain', 'Advanced SEO', '24/7 Support']),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -38,7 +38,7 @@ class SubscriptionPlansSeeder extends Seeder
             ->insert([
                 'id' => 3,
                 'name' => 'Business',
-                'price' => 99,
+                'price' => 99.99,
                 'features' => json_encode(['Custom Domain & Subdomain', 'Enterprise SEO', 'Premium Support']),
                 'created_at' => now(),
                 'updated_at' => now(),

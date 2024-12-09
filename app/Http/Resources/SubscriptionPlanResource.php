@@ -19,7 +19,7 @@ class SubscriptionPlanResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'price' => (float)$this->price,
+            'price' => $this->price,
             'features' => $this->features,
         ];
     }
