@@ -1,3 +1,35 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import {Head, useForm} from '@inertiajs/vue3';
+import {ref} from "vue";
+
+const props = defineProps({
+    plan: {
+        type: Object
+    }
+});
+
+const errors = ref(null);
+
+const form = useForm({
+    card_holder_name: 'Test User',
+    card_number: '1234-1234-1234-1234',
+    card_exp: '12/25',
+    card_cvv: '123',
+});
+
+const submit = () => {
+    form.post(route('subscription.payment', {subscriptionPlan: props.plan.data.id}), {
+        onError: (error) => {
+            errors.value = error;
+        },
+        onSuccess: () => {
+            errors.value = null;
+        },
+    });
+};
+</script>
+
 <template>
     <Head title="Subscription Payment"/>
 
@@ -127,35 +159,3 @@
         </div>
     </AuthenticatedLayout>
 </template>
-
-<script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head, useForm} from '@inertiajs/vue3';
-import {ref} from "vue";
-
-const props = defineProps({
-    plan: {
-        type: Object
-    }
-});
-
-const errors = ref(null);
-
-const form = useForm({
-    card_holder_name: 'Test User',
-    card_number: '1234-1234-1234-1234',
-    card_exp: '12/25',
-    card_cvv: '123',
-});
-
-const submit = () => {
-    form.post(route('subscription.payment', {subscriptionPlan: props.plan.data.id}), {
-        onError: (error) => {
-            errors.value = error;
-        },
-        onSuccess: () => {
-            errors.value = null;
-        },
-    });
-};
-</script>

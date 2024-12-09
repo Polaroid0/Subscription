@@ -1,3 +1,13 @@
+<script setup>
+import {Head} from '@inertiajs/vue3'
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+
+const props = defineProps({
+    subscription: Object,
+    payments: Object,
+})
+</script>
+
 <template>
     <Head title="Subscription Payment"/>
 
@@ -65,13 +75,3 @@
         </div>
     </AuthenticatedLayout>
 </template>
-
-<script setup>
-import {Head} from '@inertiajs/vue3'
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-
-const props = defineProps({
-    subscription: Object,
-    payments: Object,
-})
-</script>

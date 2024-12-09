@@ -1,3 +1,16 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import {Head, router} from '@inertiajs/vue3';
+
+const props = defineProps({
+    plans: Array
+})
+
+const selectPlan = (planID) => {
+    router.visit(route('subscription.show', {subscriptionPlan: planID}));
+};
+</script>
+
 <template>
     <Head title="Subscription Plans"/>
 
@@ -48,16 +61,3 @@
         </div>
     </AuthenticatedLayout>
 </template>
-
-<script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head, router} from '@inertiajs/vue3';
-
-const props = defineProps({
-    plans: Array
-})
-
-const selectPlan = (planID) => {
-    router.visit(route('subscription.show', {subscriptionPlan: planID}));
-};
-</script>
